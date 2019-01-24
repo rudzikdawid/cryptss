@@ -1,0 +1,56 @@
+<div fxFill fxLayoutAlign="center center">
+  <div fxFlex.xs="100" fxFlex.sm="80" fxFlex="40">
+
+    <mat-card >
+      <mat-card-header>
+        <mat-card-title>Welcome in Cryptss</mat-card-title>
+        <mat-card-subtitle>Please log in or create new account</mat-card-subtitle>
+      </mat-card-header>
+
+      <form #loginForm="ngForm"
+            (submit)="onSubmit()"
+            fxLayout="column"
+            fxLayoutGap="16px">
+        <mat-form-field appearance="fill">
+          <mat-label>login</mat-label>
+          <input #userName matInput required [(ngModel)]="user.name" name="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>password</mat-label>
+          <input matInput type="password" required [(ngModel)]="user.password" name="password">
+        </mat-form-field>
+
+        <div *ngIf="wrongCredentials" fxLayout="row" fxFlexAlign="end">
+          <span style="color: red">wrong credentials!</span>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxLayout="column">
+            <a mat-stroked-button [routerLink]="['/new-account']">create new account</a>
+          </div>
+          <span fxFlex></span>
+          <span *ngIf="!(wsStatus$ | async)"
+                fxLayout="row"
+                fxLayoutAlign="center center"
+                class="offline">
+            <span>Offline</span>
+            <mat-icon>cloud_off</mat-icon>
+          </span>
+          <button mat-flat-button
+                  color="primary"
+                  [disabled]="!loginForm.form.valid || !(wsStatus$ | async)"
+                  type="submit">
+            Log in
+          </button>
+        </div>
+
+      </form>
+    </mat-card>
+
+    <div fxLayout="row" fxLayoutAlign="end">
+      <button mat-button color="">forgot password?</button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div fxFill fxLayout="column">
+
+  <div fxFlex class="messages-container">
+    <div style="padding: 0 16px">
+      <div *ngFor="let message of conversationDetail"
+           fxLayout="row"
+           [ngClass]="itsMe(message.usr_uuid)"
+           (click)="showMenu(message)">
+        <img *ngIf="!itsMe(message.usr_uuid)" mat-card-avatar [src]="'assets/avatars/'+message.avatar">
+        <div class="message-content" [matMenuTriggerFor]="appMenu">
+          {{message.message}}
+        </div>
+
+        <mat-menu #appMenu="matMenu">
+          <button mat-menu-item (click)="copyMsg(message)">
+            <mat-icon>file_copy</mat-icon>
+            <span>Copy</span>
+          </button>
+          <button mat-menu-item *ngIf="itsMe(message.usr_uuid)" (click)="editMsg(message)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item *ngIf="itsMe(message.usr_uuid)" (click)="deleteMsg(message)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center end" class="typing-wrapper">
+    <button mat-icon-button color="primary" [matMenuTriggerFor]="typingMenu">
+      <mat-icon aria-label="Example icon-button with a heart icon">more_vert</mat-icon>
+    </button>
+    <mat-form-field fxFlex floatLabel="never" appearance="fill">
+      <textarea matInput
+                #messageTextArea
+                (keypress)="enterDetect($event)"
+                placeholder="Message"
+                cdkTextareaAutosize
+                cdkAutosizeMaxRows="8"
+                [(ngModel)]="message">
+      </textarea>
+    </mat-form-field>
+    <button mat-icon-button color="primary" (click)="send()">
+      <mat-icon>send</mat-icon>
+    </button>
+
+    <mat-menu #typingMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>attach_file</mat-icon>
+        <span>Attach file</span>
+      </button>
+
+      <button mat-menu-item>
+        <mat-icon>insert_photo</mat-icon>
+        <span>Insert photo</span>
+      </button>
+
+      <button mat-menu-item>
+        <mat-icon>sentiment_satisfied_alt</mat-icon>
+        <span>Emoji</span>
+      </button>
+    </mat-menu>
+
+  </div>
+
+</div>

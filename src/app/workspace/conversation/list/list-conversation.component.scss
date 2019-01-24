@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.add-channel {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+}
+
+mat-nav-list {
+  display: flex;
+  flex-direction: column;
+}

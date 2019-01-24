@@ -1,0 +1,51 @@
+:host {
+  display: flex;
+  flex: 1;
+
+  /deep/ .mat-form-field-wrapper {
+    margin-bottom: -1.34375em;
+    overflow: hidden;
+
+    .mat-form-field-flex {
+      padding-top: 0;
+    }
+  }
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+}
+
+.message-content {
+  background-color: #212121;
+  margin: 4px 0;
+  padding: 8px;
+  border-radius: 0 8px 8px 8px;
+  white-space: pre-line;
+}
+
+.typing-wrapper {
+  margin-top: 16px;
+}
+
+.my-message {
+  justify-content: flex-end;
+  & > .message-wrapper {
+    background-color: #080808;
+  }
+}
+
+img {
+  margin: 4px 16px 4px 0;
+  max-width: 32px;
+  max-height: 32px;
+  border-radius: 100%;
+}
+
+.menu-header {
+  color: #38e838;
+  display: block;
+  margin: 8px 16px;
+}

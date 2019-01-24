@@ -1,0 +1,45 @@
+<div fxFill fxLayout="column"class="layout-padding">
+  <div fxLayout="row">
+    <mat-form-field class="example-chip-list" fxFlex="80">
+      <mat-chip-list #chipList>
+        <mat-chip
+          *ngFor="let fruit of contacts"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(fruit)">
+          {{fruit}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Search and add memembers"
+          #fruitInput
+          [formControl]="contactCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let contact of filteredContacts | async" [value]="contact.name">
+          {{contact.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <div fxFlex fxLayoutAlign="center center">
+      <button mat-flat-button color="primary" (click)="addNewConversation()">
+        Go!
+      </button>
+    </div>
+  </div>
+
+  <mat-nav-list fxFlex style="overflow-y: auto">
+    <a mat-list-item *ngFor="let contact of availableContacts" (click)="addContact(contact)">
+      <mat-icon mat-list-icon>add</mat-icon>
+      <h4 matLine>{{contact.name}}</h4>
+      <p matLine> {{contact.email}} </p>
+    </a>
+  </mat-nav-list>
+</div>
+
