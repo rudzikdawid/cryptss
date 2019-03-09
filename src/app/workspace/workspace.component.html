@@ -30,14 +30,18 @@
   </mat-sidenav>
   <mat-sidenav-content fxLayout="column">
     <mat-toolbar fxLayoutGap="16px">
-      <button *ngIf="!routeButton" mat-icon-button (click)="leftNav.toggle()">
-        <mat-icon class="example-icon">menu</mat-icon>
-      </button>
 
-      <button *ngIf="routeButton" mat-icon-button [routerLink]="[routeButton.route]">
+      <button *ngIf="(routeButton$ | async) as routeButton; else hamburger" mat-icon-button [routerLink]="[routeButton.route]">
         <mat-icon class="example-icon">{{routeButton.icon}}</mat-icon>
       </button>
-      <span>{{toolbarTitle}}</span>
+
+      <ng-template #hamburger>
+        <button mat-icon-button (click)="leftNav.toggle()">
+          <mat-icon class="example-icon">menu</mat-icon>
+        </button>
+      </ng-template>
+
+      <span>{{toolbarTitle$ | async}}</span>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

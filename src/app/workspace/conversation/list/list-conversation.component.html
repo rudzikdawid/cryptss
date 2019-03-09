@@ -1,6 +1,6 @@
 <div fxFill fxLayout="column">
   <mat-nav-list fxFlex>
-    <a mat-list-item *ngFor="let channel of listConversation$ | async" [routerLink]="['/workspace/detail-conversation/', channel.uuid]">
+    <a mat-list-item *ngFor="let channel of list$ | async" [routerLink]="['/workspace/detail-conversation/', channel.uuid]">
       <!--<mat-icon mat-list-icon>folder</mat-icon>-->
       <h4 matLine>{{channel.name}}</h4>
       <p matLine> {{channel.last_message}} </p>

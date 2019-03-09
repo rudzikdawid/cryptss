@@ -1,7 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { WorkspaceService } from '../../workspace.service';
+import {select, Store} from "@ngrx/store";
+
 import { ConversationService } from '../conversation.service';
+import * as fromConversation from '../state/conversation.reducer';
+import * as fromWorkspace from '../../state/workspace.reducer';
+import * as conversationActions from '../state/conversation.actions';
+import * as workspaceActions from "../../state/workspace.actions";
 
 @Component({
   selector: 'app-list-conversation',
@@ -9,22 +13,23 @@ import { ConversationService } from '../conversation.service';
   styleUrls: ['./list-conversation.component.scss']
 })
 export class ListConversationComponent implements OnInit, OnDestroy {
-  listConversation$;
+  list$;
 
   constructor(
-    private workspaceService: WorkspaceService,
-    private conversationService: ConversationService
-  ) { }
+    private conversationService: ConversationService,
+    private workspaceStore: Store<fromWorkspace.WorkspaceState>,
+    private conversationStore: Store<fromConversation.ConversationState>,
+  ) {}
 
 
   ngOnInit() {
-    this.workspaceService.toolbarTitle.next('Cryptss');
-    this.workspaceService.routeButton.next(null);
+    this.list$ = this.conversationStore.pipe(select(fromConversation.listConversations));
+    this.conversationStore.dispatch(new conversationActions.Load());
 
-    this.listConversation$ = this.conversationService
-      .listConversation().pipe(
-        map(res => res.data)
-      );
+    setTimeout(() => {
+      this.workspaceStore.dispatch(new workspaceActions.ChangeToolbarTitle('Cryptss'));
+      this.workspaceStore.dispatch(new workspaceActions.ChangeRouteButton(null));
+    });
   }
 
   ngOnDestroy() {

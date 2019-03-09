@@ -3,6 +3,11 @@ import { Subject } from 'rxjs/index';
 import { BehaviorSubject } from 'rxjs/index';
 import { webSocket } from 'rxjs/webSocket';
 
+interface frame {
+  method: string;
+  data: object;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +19,7 @@ export class WebsocketService {
   connectionStatusSubscription;
   ws$ = null;
   wsSubscriber = {
-    next: (next) => {
+    next: (next: frame) => {
       if (this.processedListeners.hasOwnProperty(next.method)) {
         this.processedListeners[next.method].next(next);
       }

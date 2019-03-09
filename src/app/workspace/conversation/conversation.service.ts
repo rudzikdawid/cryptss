@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WebsocketService } from '../../websocket/websocket.service';
 import { Observable } from 'rxjs';
+import { Conversation } from "./index";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,16 @@ export class ConversationService {
     return this.websocketService.send('list_conversation');
   }
 
+  listConntacts(): Observable<any> {
+    return this.websocketService.send('list_contacts');
+  }
+
   getConversation(uuid: string) {
     return this.websocketService.send('get_conversation', uuid);
+  }
+
+  addConversation(newChanel: Conversation): Observable<any> {
+    return this.websocketService.send('add_conversation', newChanel);
   }
 
   sendMessage(msg) {

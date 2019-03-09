@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { WorkspaceService } from './workspace.service';
-import { WebsocketService } from '../websocket/websocket.service';
+import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { WebsocketService } from '../websocket/websocket.service';
+import * as fromWorkspace from './state/workspace.reducer';
 
 @Component({
   selector: 'app-workspace',
@@ -26,44 +28,21 @@ import { animate, style, transition, trigger } from '@angular/animations';
     )
   ],
 })
-export class WorkspaceComponent implements OnInit, OnDestroy {
+export class WorkspaceComponent implements OnInit {
 
   constructor(
-    private workspaceService: WorkspaceService,
     private websocketService: WebsocketService,
+    private store: Store<fromWorkspace.WorkspaceState>
   ) {}
 
-  toolbarTitleSubscription$;
-  toolbarTitle: string;
-
-  routeButtonSubscription$;
-  routeButton: object;
+  toolbarTitle$: Observable<string>;
+  routeButton$: Observable<object | null>;
   wsStatus$ = this.websocketService.connectionStatus$;
 
 
   ngOnInit() {
-    this.toolbarTitleSubscription$ = this.workspaceService.toolbarTitle.subscribe({
-      next: (next) => {
-        setTimeout(() => {
-          this.toolbarTitle = next;
-        });
-      },
-      error: (error) => {console.error(error)}
-    });
-
-    this.routeButtonSubscription$ = this.workspaceService.routeButton.subscribe({
-      next: (next) => {
-        setTimeout(() => {
-          this.routeButton = next;
-        });
-      },
-      error: (error) => {console.error(error)}
-    });
-  }
-
-  ngOnDestroy() {
-    this.toolbarTitleSubscription$.unsubscribe();
-    this.routeButtonSubscription$.unsubscribe();
+      this.toolbarTitle$ = this.store.pipe(select(fromWorkspace.toolbarTitleWorkspaces));
+      this.routeButton$ = this.store.pipe(select(fromWorkspace.routeButtonWorkspaces));
   }
 
 }

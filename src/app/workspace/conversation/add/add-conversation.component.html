@@ -3,16 +3,16 @@
     <mat-form-field class="example-chip-list" fxFlex="80">
       <mat-chip-list #chipList>
         <mat-chip
-          *ngFor="let fruit of contacts"
+          *ngFor="let contact of contacts"
           [selectable]="selectable"
           [removable]="removable"
-          (removed)="remove(fruit)">
-          {{fruit}}
+          (removed)="remove(contact)">
+          {{contact}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
         <input
           placeholder="Search and add memembers"
-          #fruitInput
+          #contactInput
           [formControl]="contactCtrl"
           [matAutocomplete]="auto"
           [matChipInputFor]="chipList"

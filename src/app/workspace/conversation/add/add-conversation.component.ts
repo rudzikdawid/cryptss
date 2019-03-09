@@ -1,10 +1,18 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
+import { Router } from "@angular/router";
 import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { WorkspaceService } from '../../workspace.service';
+import { Store } from "@ngrx/store";
+
+import { ConversationService } from "../conversation.service";
+import * as conversationActions from '../state/conversation.actions';
+import { ConversationState } from "../state/conversation.reducer";
+import { Conversation } from "../index";
+import * as workspaceActions from "../../state/workspace.actions";
+import * as fromWorkspace from "../../state/workspace.reducer";
 
 @Component({
   selector: 'app-add-conversation',
@@ -13,16 +21,30 @@ import { WorkspaceService } from '../../workspace.service';
 })
 export class AddConversationComponent implements OnInit {
 
-  constructor(private workspaceService: WorkspaceService) {
-    this.filteredContacts = this.contactCtrl.valueChanges.pipe(
-      startWith(null),
-      map((contact: string | null) => contact ? this._filter(contact) : this.allContacts.slice())
-    );
-  }
+  constructor(
+      private router: Router,
+      private conversationService: ConversationService,
+      private workspaceStore: Store<fromWorkspace.WorkspaceState>,
+      private conversationStore: Store<ConversationState>,
+  ) {}
 
   ngOnInit() {
-    this.workspaceService.toolbarTitle.next('New Conversation');
-    this.workspaceService.routeButton.next({icon: 'arrow_back', route: '/workspace/list-conversation'});
+    this.workspaceStore.dispatch(new workspaceActions.ChangeToolbarTitle('New Conversation'));
+    this.workspaceStore.dispatch(new workspaceActions.ChangeRouteButton({icon: 'arrow_back', route: '/workspace/list-conversation'}));
+
+    this.listContactsSubscription$ = this.conversationService
+      .listConntacts()
+      .subscribe({
+          next: (response) => {
+              this.allContacts = response.data;
+              this.availableContacts = [...this.allContacts];
+
+              this.filteredContacts = this.contactCtrl.valueChanges.pipe(
+                  startWith(null),
+                  map((contact: string | null) => contact ? this._filter(contact) : this.allContacts.slice())
+              );
+          }
+      });
   }
 
   selectable = true;
@@ -32,14 +54,13 @@ export class AddConversationComponent implements OnInit {
   contactCtrl = new FormControl();
   filteredContacts: Observable<object[]>;
   contacts = [];
+  newConversation: Conversation | null;
 
-  allContacts = [
-    //todo get data from server
-  ];
+  allContacts;
+  listContactsSubscription$;
+  availableContacts;
 
-  availableContacts = [...this.allContacts];
-
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('contactInput') contactInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   add(event: MatChipInputEvent): void {
@@ -61,8 +82,8 @@ export class AddConversationComponent implements OnInit {
     this.refreshAvailableContacts();
   }
 
-  remove(fruit: string): void {
-    const index = this.contacts.indexOf(fruit);
+  remove(contact: string): void {
+    const index = this.contacts.indexOf(contact);
 
     if (index >= 0) {
       this.contacts.splice(index, 1);
@@ -73,7 +94,7 @@ export class AddConversationComponent implements OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.contacts.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
+    this.contactInput.nativeElement.value = '';
     this.contactCtrl.setValue(null);
   }
 
@@ -84,7 +105,14 @@ export class AddConversationComponent implements OnInit {
   }
 
   addNewConversation() {
-    //todo
+    this.conversationStore.dispatch(new conversationActions.AddConversation({
+      uuid: null,
+      name: this.contacts.join(', '),
+      last_activity: null,
+      last_message: null
+    }));
+
+    this.router.navigate(['/workspace/list-conversation']);
   }
 
   addContact(contact) {

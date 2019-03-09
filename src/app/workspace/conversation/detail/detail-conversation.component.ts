@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { EditMessageDialogComponent } from './message/edit-message-dialog/edit-message-dialog.component';
+import { Store } from "@ngrx/store";
 
-import { WorkspaceService } from '../../workspace.service';
+import { EditMessageDialogComponent } from './message/edit-message-dialog/edit-message-dialog.component';
 import { ConversationService } from '../conversation.service';
+import * as fromWorkspace from '../../state/workspace.reducer';
+import * as workspaceActions from '../../state/workspace.actions';
 
 @Component({
   selector: 'app-detail-conversation',
@@ -24,12 +26,12 @@ export class DetailConversationComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private workspaceService: WorkspaceService,
-    private conversationService: ConversationService
+    private conversationService: ConversationService,
+    private store: Store<fromWorkspace.WorkspaceState>
   ) {}
 
   ngOnInit() {
-    this.workspaceService.routeButton.next({icon: 'arrow_back', route: '/workspace/list-conversation'});
+    this.store.dispatch(new workspaceActions.ChangeRouteButton({icon: 'arrow_back', route: '/workspace/list-conversation'}));
 
     this.routeParamsSubscription$ = this.route.params.subscribe( params => {
       this.conversationDetailSubscription$ = this.conversationService
@@ -37,7 +39,8 @@ export class DetailConversationComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (next) => {
             this.conversationDetail = next.data.messages;
-            this.workspaceService.toolbarTitle.next(next.data.name);
+
+            this.store.dispatch(new workspaceActions.ChangeToolbarTitle(next.data.name));
           }
         });
     });
