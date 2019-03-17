@@ -33,10 +33,10 @@ export class AddConversationComponent implements OnInit {
     this.workspaceStore.dispatch(new workspaceActions.ChangeRouteButton({icon: 'arrow_back', route: '/workspace/list-conversation'}));
 
     this.listContactsSubscription$ = this.conversationService
-      .listConntacts()
+      .listContacts()
       .subscribe({
           next: (response) => {
-              this.allContacts = response.data;
+              this.allContacts = response;
               this.availableContacts = [...this.allContacts];
 
               this.filteredContacts = this.contactCtrl.valueChanges.pipe(

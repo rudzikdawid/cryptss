@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/index';
-import { BehaviorSubject } from 'rxjs/index';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 
-interface frame {
+interface Response {
   method: string;
   data: object;
 }
@@ -19,9 +18,9 @@ export class WebsocketService {
   connectionStatusSubscription;
   ws$ = null;
   wsSubscriber = {
-    next: (next: frame) => {
+    next: (next: Response) => {
       if (this.processedListeners.hasOwnProperty(next.method)) {
-        this.processedListeners[next.method].next(next);
+        this.processedListeners[next.method].next(next.data);
       }
     },
     error: this.errorHandler.bind(this),

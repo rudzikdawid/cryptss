@@ -38,9 +38,9 @@ export class DetailConversationComponent implements OnInit, OnDestroy {
         .getConversation(params.uuid)
         .subscribe({
           next: (next) => {
-            this.conversationDetail = next.data.messages;
+            this.conversationDetail = next.messages;
 
-            this.store.dispatch(new workspaceActions.ChangeToolbarTitle(next.data.name));
+            this.store.dispatch(new workspaceActions.ChangeToolbarTitle(next.name));
           }
         });
     });
@@ -49,7 +49,7 @@ export class DetailConversationComponent implements OnInit, OnDestroy {
       .addListener('new_message')
       .subscribe({
         next: (next) => {
-          this.conversationDetail.push(next.data);
+          this.conversationDetail.push(next);
         }
       });
   }

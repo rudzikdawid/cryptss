@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { WebsocketService } from '../../websocket/websocket.service';
 import { Observable } from 'rxjs';
+import { WebsocketService } from '../../websocket/websocket.service';
 import { Conversation } from "./index";
 
 @Injectable({
@@ -12,11 +12,11 @@ export class ConversationService {
     private websocketService: WebsocketService
   ) { }
 
-  listConversation(): Observable<any> {
+  listConversation(): Observable<Conversation[]> {
     return this.websocketService.send('list_conversation');
   }
 
-  listConntacts(): Observable<any> {
+  listContacts(): Observable<any> {
     return this.websocketService.send('list_contacts');
   }
 
@@ -24,7 +24,7 @@ export class ConversationService {
     return this.websocketService.send('get_conversation', uuid);
   }
 
-  addConversation(newChanel: Conversation): Observable<any> {
+  addConversation(newChanel: Conversation): Observable<Conversation> {
     return this.websocketService.send('add_conversation', newChanel);
   }
 

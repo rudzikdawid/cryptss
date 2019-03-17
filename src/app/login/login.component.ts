@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginUser$ = this.websocketService.addListener('login_user');
     this.loginUserSubscription = this.loginUser$.subscribe({
         next: (response) => {
-          if (response.data) {
+          if (response) {
               this.router.navigate(['/workspace/list-conversation']);
           } else {
             this.wrongCredentials = true;

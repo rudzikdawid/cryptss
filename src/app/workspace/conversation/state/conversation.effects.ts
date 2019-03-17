@@ -9,11 +9,6 @@ import * as conversationActions from './conversation.actions';
 import { ConversationService } from '../conversation.service';
 
 
-interface ResponseInterface {
-    method: string;
-    data: Conversation;
-}
-
 @Injectable()
 export class ConversationEffects {
 
@@ -25,7 +20,7 @@ export class ConversationEffects {
         ofType(conversationActions.ConversationActionTypes.Load),
         mergeMap(action =>
             this.conversationService.listConversation().pipe(
-                map(response => (new conversationActions.LoadSuccess(response.data))),
+                map(response => (new conversationActions.LoadSuccess(response))),
                 catchError(err => of(new conversationActions.LoadFail(err)))
             )
         )
@@ -37,7 +32,7 @@ export class ConversationEffects {
         map((action: conversationActions.AddConversation) => action.payload),
         mergeMap((conversation: Conversation) =>
             this.conversationService.addConversation(conversation).pipe(
-                map((response: ResponseInterface) => (new conversationActions.AddConversationSuccess(response.data))),
+                map((response) => (new conversationActions.AddConversationSuccess(response))),
                 catchError(err => of(new conversationActions.AddConversationFail(err)))
             )
         )
