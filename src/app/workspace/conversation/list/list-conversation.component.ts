@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {select, Store} from "@ngrx/store";
+import {select, Store} from '@ngrx/store';
 
 import { ConversationService } from '../conversation.service';
 import * as fromConversation from '../state/conversation.reducer';
@@ -27,8 +27,10 @@ export class ListConversationComponent implements OnInit, OnDestroy {
     this.conversationStore.dispatch(new conversationActions.Load());
 
     setTimeout(() => {
-      this.workspaceStore.dispatch(new workspaceActions.ChangeToolbarTitle('Cryptss'));
-      this.workspaceStore.dispatch(new workspaceActions.ChangeRouteButton(null));
+      this.workspaceStore.dispatch(new workspaceActions.ChangeToolbar({
+        title: 'Cryptss',
+        button: null
+      }));
     });
   }
 

@@ -1,18 +1,18 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Store } from "@ngrx/store";
+import { Store } from '@ngrx/store';
 
-import { ConversationService } from "../conversation.service";
+import { ConversationService } from '../conversation.service';
 import * as conversationActions from '../state/conversation.actions';
-import { ConversationState } from "../state/conversation.reducer";
-import { Conversation } from "../index";
-import * as workspaceActions from "../../state/workspace.actions";
-import * as fromWorkspace from "../../state/workspace.reducer";
+import { ConversationState } from '../state/conversation.reducer';
+import { Conversation } from '../index';
+import * as workspaceActions from '../../state/workspace.actions';
+import * as fromWorkspace from '../../state/workspace.reducer';
 
 @Component({
   selector: 'app-add-conversation',
@@ -29,8 +29,10 @@ export class AddConversationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.workspaceStore.dispatch(new workspaceActions.ChangeToolbarTitle('New Conversation'));
-    this.workspaceStore.dispatch(new workspaceActions.ChangeRouteButton({icon: 'arrow_back', route: '/workspace/list-conversation'}));
+    this.workspaceStore.dispatch(new workspaceActions.ChangeToolbar({
+      title: 'New Conversation',
+      button: {icon: 'arrow_back', route: '/workspace/list-conversation'}
+    }));
 
     this.listContactsSubscription$ = this.conversationService
       .listContacts()

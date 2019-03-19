@@ -1,26 +1,17 @@
 import { Action } from '@ngrx/store';
+import { Toolbar } from '../index';
 
 export enum WorkspaceActionTypes {
-    ChangeToolbarTitle = '[Workspace] Change Toolbar Title',
-    ChangeRouteButton = '[Workspace] Change Route Button',
+    ChangeToolbar = '[Workspace] Change Toolbar'
 }
 
 // Action Creators
+export class ChangeToolbar implements Action {
+    readonly type = WorkspaceActionTypes.ChangeToolbar;
 
-export class ChangeToolbarTitle implements Action {
-    readonly type = WorkspaceActionTypes.ChangeToolbarTitle;
-
-    constructor(public payload) { }
-}
-
-
-export class ChangeRouteButton implements Action {
-    readonly type = WorkspaceActionTypes.ChangeRouteButton;
-
-    constructor(public payload) { }
+    constructor(public payload: Toolbar) { }
 }
 
 
 // Union the valid types
-export type WorkspaceActions = ChangeToolbarTitle
-    | ChangeRouteButton;
+export type WorkspaceActions = ChangeToolbar

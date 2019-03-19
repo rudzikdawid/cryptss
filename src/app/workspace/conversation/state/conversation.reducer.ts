@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ConversationActions, ConversationActionTypes } from './conversation.actions';
-import { Conversation } from "../index";
+import { Conversation } from '../index';
 import * as fromRoot from '../../../app.state';
 
 export interface State extends fromRoot.State {
@@ -8,7 +8,7 @@ export interface State extends fromRoot.State {
 }
 
 export interface ConversationState {
-    list: Conversation[]
+    list: Conversation[];
 }
 
 export const initialState: ConversationState = {

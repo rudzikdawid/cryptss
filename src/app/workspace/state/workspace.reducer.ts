@@ -1,45 +1,36 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { WorkspaceActions, WorkspaceActionTypes} from './workspace.actions';
 import * as fromRoot from '../../app.state';
+import { Toolbar } from '../index';
 
 export interface State extends fromRoot.State {
     workspace: WorkspaceState;
 }
 
 export interface WorkspaceState {
-    toolbarTitle: string,
-    routeButton: object | null
+    toolbar: Toolbar;
 }
 
 export const initialState: WorkspaceState = {
-    toolbarTitle: 'Cryptss',
-    routeButton: null
+    toolbar: {
+        title: 'Cryptss',
+        button: null
+    }
 };
 
 export const getWorkspaceFeatureState = createFeatureSelector<WorkspaceState>('workspace');
 
-export const toolbarTitleWorkspaces = createSelector(
+export const toolbarWorkspaces = createSelector(
     getWorkspaceFeatureState,
-    state => state.toolbarTitle
-);
-
-export const routeButtonWorkspaces = createSelector(
-    getWorkspaceFeatureState,
-    state => state.routeButton
+    state => state.toolbar
 );
 
 export function workspaceReducer(state = initialState, action: WorkspaceActions): WorkspaceState {
     switch(action.type) {
-        case WorkspaceActionTypes.ChangeToolbarTitle:
+        case WorkspaceActionTypes.ChangeToolbar:
             return {
                 ...state,
-                toolbarTitle: action.payload,
-            };
-
-        case WorkspaceActionTypes.ChangeRouteButton:
-            return {
-                ...state,
-                routeButton: action.payload,
+                toolbar: action.payload
             };
 
         default:

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { select, Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { WebsocketService } from '../websocket/websocket.service';
 import * as fromWorkspace from './state/workspace.reducer';
+import { Toolbar } from './index';
 
 @Component({
   selector: 'app-workspace',
@@ -35,14 +36,12 @@ export class WorkspaceComponent implements OnInit {
     private store: Store<fromWorkspace.WorkspaceState>
   ) {}
 
-  toolbarTitle$: Observable<string>;
-  routeButton$: Observable<object | null>;
+  toolbar$: Observable<Toolbar>;
   wsStatus$ = this.websocketService.connectionStatus$;
 
 
   ngOnInit() {
-      this.toolbarTitle$ = this.store.pipe(select(fromWorkspace.toolbarTitleWorkspaces));
-      this.routeButton$ = this.store.pipe(select(fromWorkspace.routeButtonWorkspaces));
+      this.toolbar$ = this.store.pipe(select(fromWorkspace.toolbarWorkspaces));
   }
 
 }
