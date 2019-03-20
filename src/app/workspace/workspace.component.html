@@ -1,8 +1,8 @@
 <mat-sidenav-container fxFill [ngClass]="{'blur': !(wsStatus$ | async)}">
   <mat-sidenav #leftNav>
     <div class="mat-typography">
-      <p class="mat-body-2">Dawid Rudzik</p>
-      <p class="mat-small">rudzikdawid@gmail.com</p>
+      <p class="mat-body-2">{{(user$ | async).display_name}}</p>
+      <p class="mat-small">{{(user$ | async).email}}</p>
     </div>
 
     <mat-nav-list>

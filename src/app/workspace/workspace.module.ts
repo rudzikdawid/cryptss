@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreModule } from "@ngrx/store";
-import { RouterModule, Routes } from "@angular/router";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
 import { workspaceReducer } from './state/workspace.reducer';
-import { WorkspaceComponent } from "./workspace.component";
+import { WorkspaceEffects } from './state/workspace.effects';
+import { WorkspaceComponent } from './workspace.component';
 import { OfflineComponent } from './offline/offline.component';
 
 
@@ -35,7 +37,8 @@ const workspaceRoutes: Routes = [
     SharedModule,
     CommonModule,
     RouterModule.forChild(workspaceRoutes),
-    StoreModule.forFeature('workspace', workspaceReducer)
+    StoreModule.forFeature('workspace', workspaceReducer),
+    EffectsModule.forFeature([WorkspaceEffects])
   ]
 
 })

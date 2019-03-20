@@ -46,7 +46,7 @@ const conversationRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(conversationRoutes),
     StoreModule.forFeature('conversation', conversationReducer),
-    EffectsModule.forFeature([ConversationEffects]),
+    EffectsModule.forFeature([ConversationEffects])
   ],
   entryComponents: [EditMessageDialogComponent],
 })

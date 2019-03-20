@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { WebsocketService } from '../websocket/websocket.service';
 import * as fromWorkspace from './state/workspace.reducer';
 import { Toolbar } from './index';
+import * as workspaceActions from './state/workspace.actions';
 
 @Component({
   selector: 'app-workspace',
@@ -37,11 +38,14 @@ export class WorkspaceComponent implements OnInit {
   ) {}
 
   toolbar$: Observable<Toolbar>;
+  user$: Observable<any>;
   wsStatus$ = this.websocketService.connectionStatus$;
 
 
   ngOnInit() {
+      this.store.dispatch(new workspaceActions.Load());
       this.toolbar$ = this.store.pipe(select(fromWorkspace.toolbarWorkspaces));
+      this.user$ = this.store.pipe(select(fromWorkspace.userWorkspace));
   }
 
 }
