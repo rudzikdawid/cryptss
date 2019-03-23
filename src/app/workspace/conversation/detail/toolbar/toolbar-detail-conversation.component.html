@@ -1,0 +1,24 @@
+<div fxFill fxLayout="row" fxLayoutAlign="start center">
+    <button mat-icon-button (click)="back()">
+        <mat-icon class="example-icon">arrow_back</mat-icon>
+    </button>
+
+    <span>{{(currentConversation$ | async)?.name}}</span>
+
+    <span fxFlex></span>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+            <mat-icon>group</mat-icon>
+            <span>Members</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>delete_outline</mat-icon>
+            <span>Remove conversation</span>
+        </button>
+    </mat-menu>
+</div>

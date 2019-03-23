@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
-import { Toolbar, User } from '../index';
+import { User } from '../index';
 
 export enum WorkspaceActionTypes {
-    ChangeToolbar = '[Workspace] Change Toolbar',
     Load = '[Workspace] Load',
     LoadSuccess = '[Workspace] Load Success',
     LoadFail = '[Workspace] Load Fail'
@@ -25,15 +24,8 @@ export class LoadFail implements Action {
     constructor(public payload: any) { }
 }
 
-export class ChangeToolbar implements Action {
-    readonly type = WorkspaceActionTypes.ChangeToolbar;
-
-    constructor(public payload: Toolbar) { }
-}
-
 
 // Union the valid types
-export type WorkspaceActions = ChangeToolbar
-    | Load
+export type WorkspaceActions = Load
     | LoadSuccess
     | LoadFail;

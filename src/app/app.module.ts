@@ -46,8 +46,7 @@ const routes: Routes = [
     StoreDevtoolsModule.instrument({maxAge: 10}),
     SharedModule,
     BrowserModule,
-    BrowserAnimationsModule,
-
+    BrowserAnimationsModule
   ],
   exports: [RouterModule],
   providers: [WebsocketService, WebsocketResolverService],

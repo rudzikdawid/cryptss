@@ -10,9 +10,6 @@ import { Store } from '@ngrx/store';
 import { ConversationService } from '../conversation.service';
 import * as conversationActions from '../state/conversation.actions';
 import { ConversationState } from '../state/conversation.reducer';
-import { Conversation } from '../index';
-import * as workspaceActions from '../../state/workspace.actions';
-import * as fromWorkspace from '../../state/workspace.reducer';
 
 @Component({
   selector: 'app-add-conversation',
@@ -20,20 +17,16 @@ import * as fromWorkspace from '../../state/workspace.reducer';
   styleUrls: ['./add-conversation.component.scss']
 })
 export class AddConversationComponent implements OnInit {
+  @ViewChild('contactInput') contactInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(
       private router: Router,
       private conversationService: ConversationService,
-      private workspaceStore: Store<fromWorkspace.WorkspaceState>,
       private conversationStore: Store<ConversationState>,
   ) {}
 
   ngOnInit() {
-    this.workspaceStore.dispatch(new workspaceActions.ChangeToolbar({
-      title: 'New Conversation',
-      button: {icon: 'arrow_back', route: '/workspace/list-conversation'}
-    }));
-
     this.listContactsSubscription$ = this.conversationService
       .listContacts()
       .subscribe({
@@ -56,14 +49,12 @@ export class AddConversationComponent implements OnInit {
   contactCtrl = new FormControl();
   filteredContacts: Observable<object[]>;
   contacts = [];
-  newConversation: Conversation | null;
 
   allContacts;
   listContactsSubscription$;
   availableContacts;
 
-  @ViewChild('contactInput') contactInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
+
 
   add(event: MatChipInputEvent): void {
     if (!this.matAutocomplete.isOpen) {

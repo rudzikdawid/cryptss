@@ -12,6 +12,9 @@ import { AddConversationComponent } from './add/add-conversation.component';
 import { DetailConversationComponent } from './detail/detail-conversation.component';
 import { MessageComponent } from './detail/message/message.component';
 import { EditMessageDialogComponent } from './detail/message/edit-message-dialog/edit-message-dialog.component';
+import { ToolbarListConversationComponent } from "./list/toolbar/toolbar-list-conversation.component";
+import { ToolbarDetailConversationComponent } from "./detail/toolbar/toolbar-detail-conversation.component";
+import { ToolbarAddConversationComponent } from "./add/toolbar/toolbar-add-conversation.component";
 
 const conversationRoutes: Routes = [
   {
@@ -19,15 +22,24 @@ const conversationRoutes: Routes = [
     children: [
       {
         path: 'list-conversation',
-        component: ListConversationComponent
-      },
-      {
-        path: 'add-conversation',
-        component: AddConversationComponent
+        children: [
+          {path: '', component: ToolbarListConversationComponent, outlet: 'toolbar', data: {animation: 'list'}},
+          {path: '', component: ListConversationComponent, data: {animation: 'list'}}
+        ]
       },
       {
         path: 'detail-conversation/:uuid',
-        component: DetailConversationComponent
+        children: [
+          {path: '', component: ToolbarDetailConversationComponent, outlet: 'toolbar', data: {animation: 'detail'}},
+          {path: '', component: DetailConversationComponent, data: {animation: 'detail'}}
+        ]
+      },
+      {
+        path: 'add-conversation',
+        children: [
+          {path: '', component: ToolbarAddConversationComponent, outlet: 'toolbar', data: {animation: 'add'}},
+          {path: '', component: AddConversationComponent, data: {animation: 'add'}}
+        ]
       }
     ]
   }
@@ -39,7 +51,10 @@ const conversationRoutes: Routes = [
     AddConversationComponent,
     DetailConversationComponent,
     MessageComponent,
-    EditMessageDialogComponent
+    EditMessageDialogComponent,
+    ToolbarListConversationComponent,
+    ToolbarDetailConversationComponent,
+    ToolbarAddConversationComponent
   ],
   imports: [
     SharedModule,

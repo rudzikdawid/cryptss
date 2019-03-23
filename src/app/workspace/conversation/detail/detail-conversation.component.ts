@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
 
 import { EditMessageDialogComponent } from './message/edit-message-dialog/edit-message-dialog.component';
 import { ConversationService } from '../conversation.service';
-import * as fromWorkspace from '../../state/workspace.reducer';
-import * as workspaceActions from '../../state/workspace.actions';
+import * as conversationActions from '../state/conversation.actions';
+import * as fromConversation from '../state/conversation.reducer';
 
 @Component({
   selector: 'app-detail-conversation',
@@ -27,7 +27,7 @@ export class DetailConversationComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private conversationService: ConversationService,
-    private store: Store<fromWorkspace.WorkspaceState>
+    private conversationStore: Store<fromConversation.ConversationState>,
   ) {}
 
   ngOnInit() {
@@ -38,12 +38,7 @@ export class DetailConversationComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (next) => {
             this.conversationDetail = next.messages;
-
-            this.store.dispatch(new workspaceActions.ChangeToolbar({
-              title: next.name,
-              button: {icon: 'arrow_back', route: '/workspace/list-conversation'}
-            }));
-
+            this.conversationStore.dispatch(new conversationActions.SetCurrentConversation(next));
           }
         });
     });

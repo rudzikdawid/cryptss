@@ -9,10 +9,12 @@ export interface State extends fromRoot.State {
 
 export interface ConversationState {
     list: Conversation[];
+    currentConversation: Conversation | null;
 }
 
 export const initialState: ConversationState = {
-    list: []
+    list: [],
+    currentConversation: null
 };
 
 export const getConversationFeatureState = createFeatureSelector<ConversationState>('conversation');
@@ -20,6 +22,11 @@ export const getConversationFeatureState = createFeatureSelector<ConversationSta
 export const listConversations = createSelector(
     getConversationFeatureState,
     state => state.list
+);
+
+export const currentConversation = createSelector(
+    getConversationFeatureState,
+    state => state.currentConversation
 );
 
 export function conversationReducer(state = initialState, action: ConversationActions): ConversationState {
@@ -44,6 +51,14 @@ export function conversationReducer(state = initialState, action: ConversationAc
 
         case ConversationActionTypes.AddConversationFail:
             return state;
+
+        case ConversationActionTypes.SetCurrentConversation:
+            return {
+                ...state,
+                currentConversation: action.payload,
+            };
+
+
 
         default:
             return state;

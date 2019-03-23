@@ -1,6 +1,7 @@
 :host {
   display: flex;
   flex: 1;
+  min-width: 100%;
 
   /deep/ .mat-form-field-wrapper {
     margin-bottom: -1.34375em;
