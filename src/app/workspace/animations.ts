@@ -43,27 +43,27 @@ export const fadeAnimation =
         transition( '* <=> *', [
             query(':enter',
                 [
-                    style({ opacity: 0, display: 'none' })
+                    style({ opacity: 0 })
                 ],
                 { optional: true }
             ),
-            query(':leave', animateChild(), { optional: true }),
+            // query(':leave', animateChild(), { optional: true }),
             group([
                 query(':leave',
                     [
-                        style({ opacity: 1,  display: 'flex' }),
-                        animate('200ms ease-in-out', style({ opacity: 0, display: 'none' }))
+                        style({ opacity: 1 }),
+                        animate('200ms ease-in-out', style({ opacity: 0 }))
                     ],
                     { optional: true }
                 ),
                 query(':enter',
                     [
-                        style({ opacity: 0, display: 'flex' }),
-                        animate('200ms ease-in-out', style({ opacity: 1, display: 'flex' }))
+                        style({ opacity: 0 }),
+                        animate('200ms ease-in-out', style({ opacity: 1 }))
                     ],
                     { optional: true }
                 )
             ]),
-            query(':enter', animateChild()),
+            // query(':enter', animateChild()),
         ])
     ]);
