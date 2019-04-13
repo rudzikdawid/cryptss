@@ -1,4 +1,4 @@
-import {animate, animateChild, group, query, stagger, style, transition, trigger} from "@angular/animations";
+import {animate, group, query, stagger, style, transition, trigger} from "@angular/animations";
 
 export const slideInAnimation =
     trigger('slideInAnimation', [
@@ -47,23 +47,27 @@ export const fadeAnimation =
                 ],
                 { optional: true }
             ),
-            // query(':leave', animateChild(), { optional: true }),
             group([
-                query(':enter .uuu',
+                query(':enter .nav-icon',
                     [
-                        style({ 'transform': 'rotate(-180deg) scale(0)' }),
-                        animate('200ms', style({ 'transform': 'rotate(0) scale(1)' }))
+                        style({ 'transform': 'rotate(-180deg) scale(0)', 'opacity': '0.5' }),
+                        animate('300ms', style({ 'transform': 'rotate(0) scale(1)' })),
+                        stagger('50ms',
+                            animate('100ms', style({ 'opacity': '1' })),
+                        )
                     ],
                     { optional: true }
                 ),
-                query(':leave .uuu',
+                query(':leave .nav-icon',
                     [
-                        style({ 'transform': 'rotate(0) scale(1)' }),
-                        animate('200ms', style({ 'transform': 'rotate(180deg) scale(0)' }))
+                        style({ 'transform': 'rotate(0) scale(1)', 'opacity': '1' }),
+                        animate('300ms', style({ 'transform': 'rotate(180deg) scale(0)' })),
+                        stagger('50ms',
+                            animate('100ms', style({ 'opacity': '0.5' })),
+                        )
                     ],
                     { optional: true }
                 ),
-
                 query(':leave .rrr',
                     [
                         style({ opacity: 1 }),
@@ -79,6 +83,5 @@ export const fadeAnimation =
                     { optional: true }
                 )
             ]),
-            // query(':enter', animateChild()),
         ])
     ]);
