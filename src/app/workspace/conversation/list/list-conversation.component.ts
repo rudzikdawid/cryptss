@@ -28,4 +28,8 @@ export class ListConversationComponent implements OnInit, OnDestroy {
     this.conversationService.clearListener('list_conversation');
   }
 
+  open(event) {
+    console.warn(event.x, event.y);
+  }
+
 }

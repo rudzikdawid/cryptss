@@ -7,7 +7,7 @@ import * as fromWorkspace from './state/workspace.reducer';
 import { User } from './index';
 import * as workspaceActions from './state/workspace.actions';
 import { WorkspaceService } from './workspace.service';
-import { myAnimation, fadeAnimation } from './animations';
+import { myAnimation, fadeAnimation, slideInAnimation } from './animations';
 
 @Component({
   selector: 'app-workspace',
@@ -15,7 +15,8 @@ import { myAnimation, fadeAnimation } from './animations';
   styleUrls: ['./workspace.component.scss'],
   animations: [
       myAnimation,
-      fadeAnimation
+      fadeAnimation,
+      slideInAnimation
   ],
 })
 export class WorkspaceComponent implements OnInit {

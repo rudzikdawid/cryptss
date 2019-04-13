@@ -36,7 +36,7 @@
       </div>
     </mat-toolbar>
 
-    <div fxFlex fxLayout="column" [@fadeAnimation]="prepareRoute(oo)" style="position: relative;">
+    <div fxFlex fxLayout="column" [@slideInAnimation]="prepareRoute(oo)" style="position: relative;">
       <router-outlet #oo="outlet"></router-outlet>
     </div>
   </mat-sidenav-content>
