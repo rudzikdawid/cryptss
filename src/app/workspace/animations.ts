@@ -1,4 +1,4 @@
-import {animate, group, query, stagger, style, transition, trigger} from "@angular/animations";
+import {animate, group, query, style, transition, trigger} from "@angular/animations";
 
 export const slideInAnimation =
     trigger('slideInAnimation', [
@@ -41,47 +41,35 @@ export const myAnimation =
 export const fadeAnimation =
     trigger('fadeAnimation', [
         transition( '* <=> *', [
-            query(':enter .rrr',
-                [
-                    style({ opacity: 0 })
-                ],
-                { optional: true }
-            ),
             group([
-                query(':enter .nav-icon',
+                query(':leave .nav-icon',
                     [
-                        style({ 'transform': 'rotate(-180deg) scale(0)', 'opacity': '0.5' }),
-                        animate('300ms', style({ 'transform': 'rotate(0) scale(1)' })),
-                        stagger('50ms',
-                            animate('100ms', style({ 'opacity': '1' })),
-                        )
+                        style({ 'transform': 'rotate(0)', 'opacity': '1' }),
+                        animate('200ms ease-in-out', style({ 'transform': 'rotate(180deg)', 'opacity': '0' }))
                     ],
                     { optional: true }
                 ),
-                query(':leave .nav-icon',
+                query(':enter .nav-icon',
                     [
-                        style({ 'transform': 'rotate(0) scale(1)', 'opacity': '1' }),
-                        animate('300ms', style({ 'transform': 'rotate(180deg) scale(0)' })),
-                        stagger('50ms',
-                            animate('100ms', style({ 'opacity': '0.5' })),
-                        )
+                        style({ 'transform': 'rotate(-180deg)', 'opacity': '0' }),
+                        animate('200ms ease-in-out', style({ 'transform': 'rotate(0)', 'opacity': '1' }))
                     ],
                     { optional: true }
                 ),
                 query(':leave .rrr',
                     [
                         style({ opacity: 1 }),
-                        animate('400ms ease-in-out', style({ opacity: 0 }))
+                        animate('150ms ease-in', style({ opacity: 0 }))
                     ],
                     { optional: true }
                 ),
                 query(':enter .rrr',
                     [
                         style({ opacity: 0 }),
-                        animate('400ms ease-in-out', style({ opacity: 1 }))
+                        animate('150ms ease-out', style({ opacity: 1 }))
                     ],
                     { optional: true }
                 )
-            ]),
+            ])
         ])
     ]);
