@@ -45,13 +45,13 @@ export const fadeAnimation =
                 query(':leave .nav-icon',
                     [
                         style({ 'transform': 'rotate(0)', 'opacity': '1' }),
-                        animate('200ms ease-in-out', style({ 'transform': 'rotate(180deg)', 'opacity': '0' }))
+                        animate('200ms ease-in-out', style({ 'transform': 'rotate({{leaveDeg}}deg)', 'opacity': '0' }))
                     ],
                     { optional: true }
                 ),
                 query(':enter .nav-icon',
                     [
-                        style({ 'transform': 'rotate(-180deg)', 'opacity': '0' }),
+                        style({ 'transform': 'rotate({{enterDeg}}deg)', 'opacity': '0' }),
                         animate('200ms ease-in-out', style({ 'transform': 'rotate(0)', 'opacity': '1' }))
                     ],
                     { optional: true }
