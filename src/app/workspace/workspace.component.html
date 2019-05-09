@@ -30,13 +30,13 @@
   </mat-sidenav>
 
   <mat-sidenav-content fxLayout="column" style="overflow: hidden">
-    <mat-toolbar [@fadeAnimation]="prepareRoute(tt)">
+    <mat-toolbar [@fadeAnimation]="routeChange$ | async">
       <div style="position: relative; width: 100%;">
         <router-outlet name="toolbar" #tt="outlet"></router-outlet>
       </div>
     </mat-toolbar>
 
-    <div fxFlex fxLayout="column" [@slideInAnimation]="prepareRoute(oo)" style="position: relative;">
+    <div fxFlex fxLayout="column" [@slideInAnimation]="routeChange$ | async" style="position: relative;">
       <router-outlet #oo="outlet"></router-outlet>
     </div>
   </mat-sidenav-content>
