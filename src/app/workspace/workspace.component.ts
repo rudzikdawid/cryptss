@@ -45,8 +45,9 @@ export class WorkspaceComponent implements OnInit {
               startWith(initNavigationEndEvent, initNavigationEndEvent),
               pairwise(),
               map(([prevRoute, nextRoute] : [NavigationEnd, NavigationEnd]) => {
+                  const animationState = nextRoute.url.split('/')[2].split('-').map(e => `${e.charAt(0).toUpperCase()}${e.slice(1)}`).join(''); //todo get from routing data
                   return {
-                      value: nextRoute.url,
+                      value: animationState,
                       params: nestedViews.find(elm => nextRoute.url.includes(elm)) ?
                           {
                               leaveDeg: -180,

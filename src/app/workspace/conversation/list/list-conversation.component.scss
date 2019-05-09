@@ -9,6 +9,10 @@
   position: fixed;
   bottom: 16px;
   right: 16px;
+  outline: 1px solid transparent;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(1px);
+  will-change: transform;
 }
 
 mat-nav-list {

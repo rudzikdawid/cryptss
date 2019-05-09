@@ -1,21 +1,51 @@
-import {animate, group, query, style, transition, trigger} from "@angular/animations";
+import {animate, group, query, stagger, style, transition, trigger} from "@angular/animations";
 
 export const slideInAnimation =
     trigger('slideInAnimation', [
+        transition('* => AddConversation', [
+            query(':leave', [
+                style({ opacity: 1})
+            ], { optional: true }),
+            query(':leave button.add-channel .mat-button-wrapper', [
+                    style({ 'opacity': '0' }),
+                ], { optional: true }
+            ),
+            query(':enter', [
+                style({ opacity: 0})
+            ], { optional: true }),
+            group([
+                query(':leave button.add-channel', [
+                    style({ 'transform': 'translateZ(1px) scale(1)'}),
+                    animate('300ms ease-in-out', style({ 'transform': 'translateZ(1px) scale(50)'})),
+                ], { optional: true }),
+                query(':leave', [
+                    style({ opacity: 1 }),
+                    animate('300ms 250ms ease-in-out', style({opacity: 0})),
+                ], { optional: true }),
+                query(':enter', [
+                    style({ opacity: 0 }),
+                    animate('300ms 150ms ease-out', style({opacity: 1}))
+                ], { optional: true })
+            ])
+        ]),
         transition('* <=> *', [
+            query(':enter', [
+                style({ opacity: 0})
+            ], { optional: true }),
+            query(':leave', [
+                style({ opacity: 1})
+            ], { optional: true }),
             query(':enter', [
                 style({ transform: 'translateY(20%)'})
             ], { optional: true }),
-            // query(':leave', animateChild()),
             group([
                 query(':leave', [
                     animate('300ms ease-out', style({ opacity: 0}))
                 ], { optional: true }),
                 query(':enter', [
-                    animate('300ms ease-out', style({ transform: 'translateX(0%)'}))
+                    animate('300ms ease-out', style({ transform: 'translateX(0%)', opacity: 1}))
                 ], { optional: true })
             ]),
-            // query(':enter', animateChild()),
         ])
     ]);
 
@@ -56,14 +86,14 @@ export const fadeAnimation =
                     ],
                     { optional: true }
                 ),
-                query(':leave .rrr',
+                query(':leave .fade',
                     [
                         style({ opacity: 1 }),
                         animate('150ms ease-in', style({ opacity: 0 }))
                     ],
                     { optional: true }
                 ),
-                query(':enter .rrr',
+                query(':enter .fade',
                     [
                         style({ opacity: 0 }),
                         animate('150ms ease-out', style({ opacity: 1 }))
